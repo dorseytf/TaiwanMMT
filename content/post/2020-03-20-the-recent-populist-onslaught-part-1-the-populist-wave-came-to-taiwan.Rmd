@@ -1,0 +1,270 @@
+---
+title: 'Part 1: How The Populist Wave Came to Taiwan'
+author: Travis Dorsey
+date: '2020-03-20'
+weight: 4
+slug: the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan
+categories:
+  - populism
+tags:
+  - populism
+output: 
+  html_document: 
+    fig_caption: yes
+---
+
+```{r init_setup, echo=FALSE, include=FALSE, warning=FALSE}
+library(readr)
+library(janitor)
+library(tidyverse)
+library(scales)
+library(lubridate)
+library(tsbox)
+
+```
+
+
+# The Global Trend Toward Populism
+
+In recent years, we have seen populist leaders come to power in countries across the world leading to a sudden renewed interest in the topic (see [here](https://www.theguardian.com/commentisfree/2018/nov/09/us-democracy-countries-global-authoritarian), [here](https://foreignpolicy.com/2019/11/04/europes-populist-governments-have-a-problem-their-capital-cities-czech-republic-hungary-poland-slovakia/), [here](https://www.bloomberg.com/quicktake/populism), and [here](https://voxeu.org/article/rise-populism) for just a few). But what factors are fueling this rise in support for candidates and parties that are often openly hostile to democracy? While exact definitions differ, among scholars of populism one of the most [widely accepted](https://www.bloomberg.com/quicktake/populism) [defining characteristics](https://www.theguardian.com/commentisfree/2015/feb/17/problem-populism-syriza-podemos-dark-side-europe) is splitting society into “the people” and “the elites,” who are not to be trusted. Populists have seen greater success in creating this schism in recent years because their claims of grievances have at least some credibility. This credibility comes from several factors, but two of the strongest, which we will explore here, are 
+1. Unequal economic performance, and
+2. Changes in the Media landscape
+
+***
+
+## How Economic Factors Lay the Groundwork for Populism
+
+### I. Inequality
+
+For the past several decades, much of the world has seen an increase in both wealth and [income inequality](https://www.oecd.org/els/soc/49499779.pdf). And while there have been tremendous gains in the global economy since the 2008 recession, the vast majority of the recovery has not been shared evenly at either the national or sub-national level. Inequality has not only [grown significantly](https://www.bloomberg.com/quicktake/income-inequality) since the crash in 2008, it is now also receiving increased attention from both economists (see Piketty’s meteoric rise to fame) and the population at large. Even in countries where numerous aggregate economic indicators suggest that the economy has recovered to pre-crisis levels, such as the USA, this growing inequality is causing discontent that is being successfully leveraged by populist candidates like Donald Trump.
+
+![Figure 1: Wealth Share by Wealth Decile in the USA (from Bruenig in Jacobin, 2017)](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/Wealth Share by Decile 2016.png)
+
+![Figure 2: Income Inequality has Risen in Most OECD Countries](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/OECD Income Inequality.png)
+
+### II. Stagnant Earnings and Unemployment
+In addition to rising inequality, many countries have struggled with persistent high unemployment for large swaths of their population, and particularly younger workers in countries like [Greece](https://tradingeconomics.com/greece/youth-unemployment-rate), [Spain](https://tradingeconomics.com/spain/youth-unemployment-rate), and [Italy](https://tradingeconomics.com/italy/youth-unemployment-rate). Even for those fortunate enough to have employment, earnings everywhere are underperforming relative to past trends. Economists have found robust evidence that workers’ wages are [no longer growing](http://www.oecd.org/economy/decoupling-of-wages-from-productivity/) alongside [productivity](https://www.epi.org/productivity-pay-gap/) in many countries. In addition, younger workers also [earn significantly less](https://www.newamerica.org/millennials/reports/emerging-millennial-wealth-gap/) than their [parents’ generation](https://younginvincibles.org/financial-health-young-america/).
+
+![Figure 3: Productivity and Wages have Decoupled in the US](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/EPI Productivity Decoupling.png)
+
+### III. Housing Prices
+In conjunction with the downward pressures on income and wealth felt by most people, housing prices have continued to [rise quickly](http://www.oecd.org/social/affordable-housing-database/housing-market/). This has led to a severe drop in home purchases among the young, overcrowding, and an ever-increasing share of income being devoted toward [housing](http://www.oecd.org/social/affordable-housing-database/housing-conditions/), particularly among low-income families. 
+
+![Figure 4: OECD Housing Indicators](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/OECD Housing Indicators.png)
+
+Another useful metric for examining housing affordability relative to incomes is the housing median multiple measure  (see Demographia's [Middle-Income Housing Affordability](http://www.demographia.com/dhi.pdf) report), which takes the median home price divided by the median household income to measure relative affordability. Values of this metric are categorized as such: 
+
+```{r hmm_table, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+
+tibble(`Housing Affordability Rating` = c("Affordable", "Moderately Unaffordable", "Seriously Unaffordable", "Severly Unaffordable"),
+       `Median Multiple` = c("3.0 & Under", "3.1 to 4.0", "4.1 to 5.0", "5.1 & Over")) %>%
+  kable('html', align = c('l','c')) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+
+```
+
+Comparing 8 countries in 2019, Demographia found that only the US has any markets in the Affordable category, but these 10 affordable markets represent less than 1/5th of the total major markets in the US. Only Singapore, Ireland, and the US have less than 1/3 of their markets in the Severly Unaffordable category, and only the US has at least half of their markets in the Affordable or Moderately Unaffordable categories (Median Market < 4.1).
+
+```{r world_hmm, echo=FALSE, message=FALSE}
+hmm_urlfile <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/World%20Housing%20Median%20Multiple.csv"
+
+world_hmm_data <- read_csv(url(hmm_urlfile)) 
+
+kable(world_hmm_data, 'html') %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+Figure 5: Housing Market Multiple Results for 8 Countries
+
+Combine poor job prospects and unaffordable housing with the increased concentration of wealth at the top and populists’ appeals to the masses against a hated elite suddenly seem far more credible. Successful populists then leverage this credibility to garner support for their own preferred solutions, reframing the policy debate to their advantage and often catching established politicians off guard. 
+
+*** 
+
+## How Populists Use a Changing Media Landscape
+
+Communication lies at the core of the populist approach to politics. Populists distance themselves from establishment politicians and gain new supporters by claiming to reveal truths and raise issues the "elites" refuse to discuss, though this is often riddled with [misinformation](https://www.scopus.com/record/display.uri?eid=2-s2.0-85030773900&origin=inward&txGid=34953e8fcef78b459bcd97132acaae3d). While this has certainly been true for as long as there have been populists, the ubiquitousness of social media and ad revenue-focused media outlets, as well as the [complicity of traditional media](https://journals.sagepub.com/doi/abs/10.1177/0267323118790156), have provided populists with unprecedented ability to reach [greater audiences](https://doi.org/10.1057/s41304-017-0137-4), reinforce and legitimize their talking points (see [Mazzoleni](https://link.springer.com/chapter/10.1057/9780230592100_4) in Twenty-First Century Populism, 2008), and tailor a constant attitude-congruent barrage of content that supporters can [self-select](https://www.tandfonline.com/doi/full/10.1080/15205436.2017.1291817), thereby reinforcing their attitudes. 
+
+### I. Social Media
+While politicians and parties across the spectrum utilize social media, it is particularly well-suited to populists because of its largely unregulated, non-hierarchical, and democratic structure (see [Bartlett](http://eprints.whiterose.ac.uk/104297/1/Korr%20igen.pdf#page=121) in European Populism and Winning the Immigration Debate, 2014). Since social media provides information separately from traditional, "elite-owned" media outlets, supporters of populists tend to trust the news and information they receive via social media more, whether or not it is actually factual.
+
+Indeed, the unfiltered nature of social media allows populists and their supporters to make claims without evidence, alter news stories to more readily align with their beliefs, and even simply fabricate false narratives. In response to this, fact checking has grown significantly, although there is [abundant](https://link.springer.com/article/10.1007/s11109-010-9112-2) [evidence](https://journals.sagepub.com/doi/abs/10.1177/1478929918786852?journalCode=pswa) that it is often [ineffective](https://journals.sagepub.com/doi/full/10.1177/0956797617714579) and misinformation can outnumber attempts to correct it by [3:1](https://www.americanpressinstitute.org/fact-checking-project/new-fact-checking-research-false-information-floods-twitter-many-americans-confidently-wrong/). Even when people are presented with a detailed debunking of misinformation, they often . The overwhelming amount of information available on social media also allows potential supporters to [tailor a media diet](https://www.tandfonline.com/doi/full/10.1080/15205436.2017.1291817) that is focused on maintaining their beliefs. 
+
+### II. Mainstream Media
+There is also evidence that the way mainstream and traditional media outlets cover populists can contribute to spreading their message and lending an air of credibility to them. Esser, Stepinska, and Hopmann (in Populist Political Communication in Europe, 2016) point out [several cases](https://www.uzh.ch/cmsssl/ikmz/dam/jcr:bffdb399-af58-4d95-88f8-409dffd41e61/Chapter28%20%20Populism%20and%20the%20media.pdf) where even largely negative coverage led to improved electoral success for populist parties in Europe. [Content analysis](https://journals.sagepub.com/doi/abs/10.1111/1467-9248.12074) of opinion articles across Europe also shows that public debates in even elite media outlets have become more populist over time, correlating strongly with the electoral success of populist parties. 
+
+***
+
+# What Do These Factors Look Like in Taiwan?
+
+## Economic Trends in Taiwan
+```{r include=FALSE}
+
+molurlfile <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/Taiwan%20MoL%20Data.csv"
+
+earnings_urlfile <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/Taiwan%20Earnings%20Data.csv"
+
+tw_mol_data <- read_csv(url(molurlfile)) %>%
+  clean_names()
+
+tw_earnings_data <- read_csv(url(earnings_urlfile)) %>%
+  clean_names() %>%
+  filter(!is.na(metric)) %>%
+  separate(year_and_month, c("year", "month")) %>%
+  mutate(day = ifelse(month == "FEB", "28", "30")) %>%
+  mutate(date = paste(year, month, day, sep = "-")) %>%
+  mutate(date = ymd(date)) %>%
+  select(-c(year, month, day))
+
+earnings_ts <- ts(tw_earnings_data$statistical_value[which(tw_earnings_data$metric == "Monthly Real Earnings(NT)")],
+                  frequency = 12,
+                  start = c(1980, 1))
+
+earnings_trend <- decompose(earnings_ts)$trend
+```
+
+### I. Inequality
+```{r tw_inequal_setup, echo=FALSE, message=FALSE}
+inequality_url <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/Taiwan%20Income%20Inequality%20Data.csv"
+expenditures_url <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/Taiwan%20Expenditures%20by%20Category.csv"
+
+tw_gini_df <- read_csv(url(inequality_url))[, c(1,2,8,9)] %>%
+  gather("inequality_measure", "value", -c(Year, Metric)) %>%
+  filter(!is.na(value)) %>%
+  clean_names()
+
+tw_inequality_df <- read_csv(url(inequality_url))[, -c(8:9)] %>%
+  gather("quintile", "value", -c(Year, Metric))
+
+```
+
+Taiwan has not been immune to [the trend](https://taiwaninsight.org/2018/12/21/economic-inequality-and-low-wages-in-taiwan/) of [high inequality](https://www.tandfonline.com/doi/abs/10.1080/10670560701809577?journalCode=cjcc20) seen elsewhere, in terms of both income [and](https://www.cw.com.tw/article/article.action?id=5096030&_ga=2.248406340.294892371.1585168209-1399055695.1579278642) [wealth](http://www.econ.ntu.edu.tw/ter/new/data/new/TER46-4/TER464-2.pdf). 
+
+[Lien, et al (2019)](http://www.econ.ntu.edu.tw/uploads/asset/data/5e60b2c148b8a14a85000573/macro_1090312.pdf) utilized the Individual Wealth Register from Taiwan's Ministry of Finance to build a dataset of wealth distribution for Taiwan covering the period 2004 to 2014. Using this data, they found that, although certain assets such as stocks have concentrated toward the top, Taiwan's Gini coefficient for overall wealth remained fairly steady around 0.79 for the period, which is comparable to South Korea and Sweden, and lower than that of the US. 
+
+![Figure 6: Wealth Distribution and Average Net Worth in Taiwan](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/Taiwan Wealth Pyramid English.png)
+
+While wealth inequality in Taiwan may not have increased significantly over the period 2004-2014, it is still true that the top 1% and 10% own 23% and 61% of all wealth, respectively. This inequality is also not spread evenly across age groups: the Gini coefficient for those under 50 increased over the period, while it decreased among those over 70. 
+
+In terms of income inequality, regardless of the measure used (either Gini Coefficient or the Ratio of Income Share of the Top 20% to the bottom 20%), we see that income inequality has been steadily increasing in Taiwan since the 1980s. While Taiwan's inequality is considerably better than in many other developed countries, the trend still has troubling implications. 
+
+```{r tw_gini1, echo=FALSE}
+tw_gini_df %>%
+  ggplot(aes(x = year, y = value, color = inequality_measure)) +
+  geom_line() +
+  facet_wrap(~inequality_measure, scales = "free") +
+  scale_color_viridis_d() +
+  guides(color = "none") +
+  labs(title = "Measures of Income Inequality in Taiwan",
+       x = " ",
+       y = "Inequality Measure Value")
+```
+Figure 7: Measures of Income Inequality for Taiwan
+
+Looking at average savings per household, we again see a significant divergence between the top income quintile and the rest of the population.
+
+```{r tw_income, echo=FALSE}
+library(directlabels)
+
+tw_inequality_df %>%
+  filter(!str_detect(Metric, "Percent distribution")) %>%
+  ggplot(aes(x = Year, y = value, color = quintile)) +
+  geom_line() +
+  geom_dl(aes(label = quintile), method = list("last.points", cex = 0.8)) +
+  scale_color_viridis_d(guide = "none") +
+  scale_y_continuous(labels = dollar) +
+  scale_x_continuous(expand = expand_scale(mult = c(0,0.14))) +
+  labs(title = "Average Savings per Household by Income Quintile in Taiwan",
+       x = " ",
+       y = "Average Savings per Household in NT$")
+```
+Figure 8: Average Savings per Household by Income Quintile for Taiwan
+
+
+### II. Stagnant Earnings and Unemployment
+While casual observers may only be familiar with Taiwan’s development success story as one of the four “Asian Tigers” (along with South Korea, Hong Kong, and Singapore) who saw dramatic growth and development beginning in the 1960s, for scholars and ordinary Taiwanese people, [stagnant wages](https://english.cw.com.tw/article/article.action?id=2638) have been the biggest economic story for almost two decades. 
+
+```{r earnings_ts, echo=FALSE}
+ts_df(earnings_trend) %>%
+  filter(!is.na(value)) %>%
+  ggplot(aes(x = time, y = value)) +
+  geom_line() +
+  scale_y_continuous(labels = dollar) +
+  labs(title = "Real Monthly Earnings in Taiwan",
+       subtitle = "Seasonally Adjusted; Industry and Service Sectors",
+       caption = "Data source: Directorate-General of Budget, Accounting and Statistics",
+       x = " ",
+       y = "Real Monthly Earnings (in NT$)")
+```
+Figure 9: Real Monthly Earnings in Taiwan have stagnated
+
+This is largely the result of an issue that is shared with most other developed countries: productivity and wages have decoupled. This means that despite the fact that Taiwan’s GDP and worker productivity continue to grow, real wages are stuck near 2002 levels. If wages were paid in line with productivity, earnings would be significantly higher for the average worker. 
+
+![Figure 10: Wages and Productivity (here measured in GDP growth) have Decoupled in Taiwan as well](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/Decoupling of Prod and Wages in Taiwan.png)
+
+
+Even though many indicators have shown [significant growth and improvement](https://www.taiwan.gov.tw/content_7.php) in the economy, including having the [highest GDP growth rate](https://www.taiwannews.com.tw/en/news/3756340) among the Asian Tigers and the greatest increase in exports to the US, most of these improvements have not been felt evenly. In contrast to countries like South Korea and Japan, where large conglomerates account for the bulk of economic output, small- and medium-sized enterprises (SMEs) account for 97% of all Taiwanese companies. In spite of this, the share of exports that come from SMEs in Taiwan’s export-dominated economy has consistently shrunk since the 90s, accounting for only 13.7% in 2018. 
+
+![Figure 11: SMEs Share of Taiwan's Exports](/post/2020-03-20-the-recent-populist-onslaught-part-1-the-populist-wave-came-to-taiwan_files/SME Share of Exports.png)
+
+In itself, this shift does not necessarily represent an issue. The problem arises because the firms that have grown to represent the bulk of Taiwan’s exports (mostly concentrated in the electrical equipment and parts industry) are focused on intermediate goods, and are therefore severely limited in their ability to move up the value-added chain. With trade accounting for such a large portion of Taiwan's economy, a large number of workers and firms are essentially stuck at a lower level of value, and many observers think that this may be one of the biggest causes of the decoupling of wages and productivity.
+
+In addition to these stagnant wages, Taiwan also has the [4th longest working hours](https://www.taiwannews.com.tw/en/news/3785553) in the world, and is second only to Singapore in Asia. Recent surveys from the Ministry of Labor have shown that 46% of Taiwanese worked at least some overtime in the last year, with an average of 15.9 hours of overtime per month. However it's not all doom and gloom on this front. Total working hours in Taiwan are on the decline, with annual working hours decreasing by 122 since 2008. Surveys also show that about 70% of employees are largely satisfied with their jobs.
+
+
+### III. Housing Prices
+As in many other countries around the world, housing prices have also [risen significantly](http://www.econ.sinica.edu.tw/UpFiles/2013090214141704234/Periodicals_Pdf2013090215154369017/EC452-3.pdf) in Taiwan relative to incomes. Utilizing the same housing median multiple metric from before for Taiwan over the period 2002-2019, we see that the country as a whole has been Severly Unaffordable for nearly the entire time. The capital Taipei fares even worse, with a housing median multiple above 10 since early 2009. Given that Taiwan's largely mountainous terrain limits the available area for new housing, this is not entirely surprising. 
+
+```{r tw_hmm, echo=FALSE, message=FALSE}
+tw_housing_url <- "https://raw.githubusercontent.com/dorseytf/TaiwanMMT/master/Taiwan%20Housing%20Data.csv"
+
+tw_housing_data <- read_csv(url(tw_housing_url)) %>%
+  clean_names() %>%
+  separate(year_and_quarter, c("year", "qtr"), sep = "Q") %>%
+  mutate(year = as.numeric(year) + 1911,
+         qtr = as.numeric(qtr)) %>%
+  mutate(time = paste0(year, ":Q", qtr)) %>%
+  mutate(time = lubridate::yq(time)) %>%
+  select(-c(year, qtr)) %>%
+  gather("locality", "value", -c(metric, time)) %>%
+  mutate(locality = gsub("_", " ", locality)) %>%
+  mutate(locality = str_to_title(locality))
+
+tw_housing_data %>%
+  filter(metric == "Housing Median Multiple") %>%
+  ggplot(aes(x = time, y = value, color = locality)) +
+  geom_line() +
+  scale_color_viridis_d(name = "Locality") +
+  labs(title = "Quarterly Housing Median Multiple for Taiwan and Taipei City",
+       x = " ",
+       y = "Housing Median Multiple")
+
+```
+Figure 12: Quarterly Housing Median Multiple for Taiwan and Taipei
+
+We see the same picture using [alternative measures](http://www.econ.sinica.edu.tw/UpFiles/2013090214141704234/Periodicals_Pdf2013090215154369017/EC452-3.pdf), such as the Price-to-Income Ratio and the Loan-Payment-to-Income Ratio. 
+
+```{r tw_housing_ratios, echo=FALSE, message=FALSE}
+tw_housing_data %>%
+  filter(!metric %in% c("Housing Median Multiple")) %>%
+  ggplot(aes(x = time, y = value, color = locality)) + 
+  geom_line() +
+  facet_wrap(~metric, scales = "free") +
+  scale_color_viridis_d(name = "Locality") +
+  labs(title = "Taiwan's Price-to-Income and Loan Payment-to-Income Ratios",
+       x = " ",
+       y = "Ratio")
+```
+Figure 13: Measures of Taiwan's Housing Affordability Crisis
+
+While this unaffordability is offset somewhat by Taiwan's historically low interest rates, the unaffordability crisis has hit younger workers particularly hard. [Surveys show](https://www.storm.mg/article/45838) that nearly half of adults in the 25-40 age range live with their parents, and less than 30% own their own home. Around 44% of respondents in this age range also expressed interest in applying for social housing (rentals that are subsidized by the government) in order to have a chance to save enough to eventually purchase their own home. 
+
+How exactly did the housing market in Taiwan get so out of whack? In his excellent and in-depth analysis, Sheng-cheng Hu shows that it is due in large part to excess savings outpacing gross domestic investment, which led to capital outflows and heavy speculation in the stock and housing markets. In Taiwan, the household savings rate actually fell from 24.42% in 2003 to 20.62% in 2012, so the glut in excess savings was created by two forces: businesses hoarding cash (rather than reinvesting it) and Taiwanese businesses in China moving capital back into Taiwan. 
+
+In 2009, changes to tax laws meant that certain marginal tax rates fell from 50% to 10%, leading to an influx of capital from Taiwanese businesses that felt China's coastal cities had become too expensive to be easily profitable. However, this capital influx was not accompanied by any actual plans for reinvesting in Taiwan, and in order to avoid losses in the stock market due to the Great Financial Crisis, much of it wound up in the housing market. This not only caused housing prices to increase, but it also prevented wages from keeping up with inflation as this money could have been put to better use. 
+
+All of this speculation in the housing market has left Taiwan not only with ever-increasing home prices, but with a growing number of empty houses. At the end of 2019, the number of empty houses in Taiwan was almost [860,000](https://www.thenewslens.com/article/103951), and this problem was not restricted to just the capital. Despite this oversupply, the number of new houses (defined by the Ministry of the Interor as those built within the last 5 years listed as available to purchase for the first time) in the 4th Quarter of 2018 [surpassed 75,000](https://pip.moi.gov.tw/V3/E/SCRE0104.aspx). 
+
+
+
+

@@ -1,0 +1,23 @@
+---
+title: The Recent Populist Onslaught and How Taiwan Pushed Back - Introduction
+author: Travis Dorsey
+date: '2020-03-20'
+weight: 5
+slug: introduction
+categories: [populism]
+tags: [populism]
+---
+
+# Causes of the Recent Populist Onslaught - An Introduction
+
+Most observers of Taiwan’s 2020 general election agree that the results show voters care greatly about protecting their hard-won democracy, with the incumbent Tsai Ying-wen defeating her populist, pro-Beijing opponent with the greatest number of votes for any presidential candidate in Taiwanese history. While many now feel able to breathe a sigh of relief, the fact is that over 5.5 million people (in a total population of 23 million) [voted for the populist candidate](https://www.bloomberg.com/graphics/2020-taiwan-election-results/), and the political schisms and structural causes for this support remain. For those of us interested in seeing Taiwan’s democracy thrive rather than go on the defensive at every election, we are left pondering several challenging questions:
+
+1.	Why are right-wing populists finding such strong levels of support in democracies around the world, and how was Taiwan almost swept up in this global trend?
+2.	What led Taiwanese voters to oppose this trend at the ballot box? 
+3.	Knowing what causes support for right-wing populism, what steps could be taken to proactively protect Taiwan’s democracy moving forward?
+
+While there are numerous causes for shifting politics and the rise of right-wing populism, this series will focus mainly on the economic causes. In future series, I hope to dig into additional causes, such as the role of political identity and the media more deeply as they are also important factors that need to be tackled. 
+
+Each post in this series will be devoted to one of these questions, building on existing scholarly work as well as presenting new analyses to improve our understanding of these pressing issues. All data and R code for the analyses I performed are available through my GitHub. 
+
+An important point to keep in mind for this series is that I will focus specifically on right-wing populism, both globally and in Taiwan. My reasoning for this is that, while scholars of populism are quick to point out that populism is essentially just a political tool that can be used by any party or candidate to gain supporters and open the door to their accompanying political ideology, populists on the left and right differ significantly in their proposed solutions to issues, as well as in their likelihood of conflicting with democratic rules and institutions or adopting authoritarian tendencies. Because of this, even though we often see parties from both the left (such as Syriza in Greece and Podemos in Spain) and the right (Law and Justice in Poland, Five Star in Italy, KDNP in Hungary) described as populist parties, the consequences for democracy are usually direr in the wake of right-wing populist victories. Therefore, throughout this series I will be focused specifically on right-wing populism and will use this term interchangeably with “populism” for the sake of brevity. 
